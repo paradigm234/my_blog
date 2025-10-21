@@ -16,6 +16,10 @@ projects:
     name: 项目文件
     desc: 个人/合作开发的项目
     link: https://github.com/paradigm234
+  - icon: user-group
+    name: 伙伴名称t
+    desc: 牢钟么么叽
+    link: https://xbzhong.cn/
 ---
 ## 博客
 
