@@ -116,9 +116,9 @@ export default sidebar({
       expanded: true,
       children: [
         {
-          text: "随笔1",
+          text: "讯飞实习工作总结",
           icon: "pen-to-square",
-          link: "1.md"  // 对应 /something_inside/1.md
+          link: "讯飞实习工作总结.md"  // 对应 /something_inside/1.md
         }
       ]
     }
