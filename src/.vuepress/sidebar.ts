@@ -53,9 +53,9 @@ export default sidebar({
       expanded: true,
       children: [
         {
-          text: "Acwing相关记录",
+          text: "开发日志1",
           icon: "mdi:timeline-clock",
-          link: "develop_log"  // 对应 /about_blog/develop_log.md
+          link: "1"  // 对应 /about_blog/1.md
         }
       ]
     }

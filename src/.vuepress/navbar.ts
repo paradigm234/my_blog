@@ -51,7 +51,7 @@ export default navbar([
         text: "博客开发日志",
         icon: "fa6-solid:blog",
         children: [
-          { text: "日志1", icon: "fa6-solid:blog", link: "1" },
+          { text: "开发日志1", icon: "fa6-solid:blog", link: "1" },
         ],
       },
     ],
@@ -67,7 +67,7 @@ export default navbar([
         text: "有用的学习资料",
         icon: "emojione-v1:document",
         children: [
-          { text: "资料1", icon: "emojione-v1:document", link: "1" },
+          { text: "学习资料", icon: "emojione-v1:document", link: "study_documents" },
         ],
       },
     ],
