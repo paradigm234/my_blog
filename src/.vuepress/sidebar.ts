@@ -53,10 +53,16 @@ export default sidebar({
       expanded: true,
       children: [
         {
-          text: "开发日志1",
+          text: "2025-10-22",
           icon: "mdi:timeline-clock",
-          link: "1"  // 对应 /about_blog/1.md
-        }
+          link: "2025-10-22"  // 对应 /about_blog/2025-10-22.md
+        },
+        {
+          text: "2025-10-25",
+          icon: "mdi:timeline-clock",
+          link: "2025-10-25"  // 对应 /about_blog/2025-10-25.md
+
+        },
       ]
     }
   ],

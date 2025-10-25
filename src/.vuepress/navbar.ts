@@ -51,7 +51,8 @@ export default navbar([
         text: "博客开发日志",
         icon: "fa6-solid:blog",
         children: [
-          { text: "开发日志1", icon: "fa6-solid:blog", link: "1" },
+          { text: "2025-10-22", icon: "fa6-solid:blog", link: "2025-10-22" },
+          { text: "2025-10-25", icon: "fa6-solid:blog", link: "2025-10-25" },
         ],
       },
     ],
