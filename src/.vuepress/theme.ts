@@ -147,6 +147,11 @@ export default hopeTheme({
     icon: {
       prefix: "fa6-solid:",
     },
+    slimsearch: true,
+    comment: {
+      provider: "Waline",
+      serverURL: "https://myblogsearch-hifjiotki-paradigm234s-projects.vercel.app/",
+    }
 
     // 如果你需要 PWA。安装 @vuepress/plugin-pwa 并取消下方注释
     // pwa: {
