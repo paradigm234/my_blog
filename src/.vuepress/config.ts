@@ -8,6 +8,8 @@ export default defineUserConfig({
   lang: "zh-CN",
   title: "哈基豪的播客",
   description: "塔塔开！",
+  head: [["link", { rel: "icon", href: "/favicon.ico" }]],
+
 
   theme,
 
