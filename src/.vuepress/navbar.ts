@@ -34,7 +34,8 @@ export default navbar([
         text: "随便写写",
         icon: "pen-to-square",
         children: [
-          { text: "讯飞实习工作总结", icon: "pen-to-square", link: "讯飞实习工作总结" },
+          { text: "讯飞实习工作总结", icon: "streamline-freehand:office-work-wireless", link: "讯飞实习工作总结" },
+          { text: "随便写写", icon: "emojione-monotone:fountain-pen", link: "随便写写" },
 
         ],
       },

@@ -123,8 +123,13 @@ export default sidebar({
       children: [
         {
           text: "讯飞实习工作总结",
-          icon: "pen-to-square",
+          icon: "streamline-freehand:office-work-wireless",
           link: "讯飞实习工作总结.md"  // 对应 /something_inside/1.md
+        },
+        {
+          text: "随便写写",
+          icon: "emojione-monotone:fountain-pen",
+          link: "随便写写.md"  // 对应 /something_inside/1.md
         }
       ]
     }
