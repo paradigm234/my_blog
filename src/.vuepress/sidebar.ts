@@ -20,18 +20,6 @@ export default sidebar({
       ]
     },
     {
-      text: "数据结构与算法",
-      icon: "hugeicons:algorithm",
-      expanded: true,
-      children: [
-        {
-          text: "核心数据结构",
-          icon: "hugeicons:algorithm",
-          link: "Data Structure.md"  // 对应 /coding/Data Structure.md
-        }
-      ]
-    },
-    {
       text: "Python",
       icon: "ant-design:python-outlined",
       expanded: true,
@@ -43,6 +31,22 @@ export default sidebar({
         }
       ]
     }
+  ],
+  "/computer_base/": [
+
+    {
+      text: "数据结构与算法",
+      icon: "hugeicons:algorithm",
+      expanded: true,
+      children: [
+        {
+          text: "核心数据结构",
+          icon: "hugeicons:algorithm",
+          link: "Data Structure.md"  // 对应 /computer_base/Data Structure.md
+        }
+      ]
+    },
+
   ],
 
   // 博客开发日志：/zh/posts/about_blog/ 路径下的侧边栏
@@ -61,6 +65,12 @@ export default sidebar({
           text: "2025-10-25",
           icon: "mdi:timeline-clock",
           link: "2025-10-25"  // 对应 /about_blog/2025-10-25.md
+
+        },
+        {
+          text: "2025-10-28",
+          icon: "mdi:timeline-clock",
+          link: "2025-10-28"  // 对应 /about_blog/2025-10-25.md
 
         },
       ]

@@ -18,7 +18,21 @@ export default navbar([
         children: [
           { text: "python", icon: "ant-design:python-outlined", link: "python1" },
           { text: "javase", icon: "streamline-ultimate:java", link: "javase" },
-          { text: "数据结构", icon: "hugeicons:algorithm", link: "Data Structure" },
+        ],
+      },
+    ],
+  },
+  //计算机基础
+  {
+    text: "计算机牢四门",
+    icon: "icon-park:code-computer",
+    prefix: "/computer_base/",
+    children: [
+      {
+        text: "408",
+        children: [
+          { text: "数据结构与算法", icon: "hugeicons:algorithm", link: "Data Structure" },
+
         ],
       },
     ],
@@ -54,6 +68,7 @@ export default navbar([
         children: [
           { text: "2025-10-22", icon: "fa6-solid:blog", link: "2025-10-22" },
           { text: "2025-10-25", icon: "fa6-solid:blog", link: "2025-10-25" },
+          { text: "2025-10-28", icon: "fa6-solid:blog", link: "2025-10-28" },
         ],
       },
     ],
