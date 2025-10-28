@@ -4,7 +4,7 @@ import navbar from "./navbar.js";
 import sidebar from "./sidebar.js";
 
 export default hopeTheme({
-  hostname: "https://jhwang.cn",
+  hostname: "https://junhaowang.cn",
 
   author: {
     name: "jhWang",
@@ -13,7 +13,7 @@ export default hopeTheme({
 
   logo: "/logo.jpg",
 
-  repo: "vuepress-theme-hope/vuepress-theme-hope",
+  repo: "paradigm234/my_blog",
 
   docsDir: "src",
 
