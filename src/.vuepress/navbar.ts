@@ -69,6 +69,7 @@ export default navbar([
           { text: "2025-10-22", icon: "fa6-solid:blog", link: "2025-10-22" },
           { text: "2025-10-25", icon: "fa6-solid:blog", link: "2025-10-25" },
           { text: "2025-10-28", icon: "fa6-solid:blog", link: "2025-10-28" },
+          { text: "2025-11-04", icon: "fa6-solid:blog", link: "2025-11-04" },
         ],
       },
     ],
@@ -84,7 +85,7 @@ export default navbar([
         text: "有用的学习资料",
         icon: "emojione-v1:document",
         children: [
-          { text: "学习资料", icon: "emojione-v1:document", link: "study_documents" },
+          { text: "人工智能基础", icon: "hugeicons:ai-book", link: "人工智能基础" },
         ],
       },
     ],

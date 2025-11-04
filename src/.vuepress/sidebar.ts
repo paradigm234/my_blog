@@ -73,6 +73,12 @@ export default sidebar({
           link: "2025-10-28"  // 对应 /about_blog/2025-10-25.md
 
         },
+        {
+          text: "2025-11-04",
+          icon: "mdi:timeline-clock",
+          link: "2025-11-04"  // 对应 /about_blog/2025-11-04.md
+
+        },
       ]
     }
   ],
@@ -116,9 +122,9 @@ export default sidebar({
       expanded: true,
       children: [
         {
-          text: "资料1",
-          icon: "emojione-v1:document",
-          link: "1.md"  // 对应 /study/1.md
+          text: "人工智能基础",
+          icon: "hugeicons:ai-book",
+          link: "人工智能基础.md"  // 对应 /study/1.md
         }
       ]
     }
