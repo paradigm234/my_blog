@@ -79,6 +79,12 @@ export default sidebar({
           link: "2025-11-04"  // 对应 /about_blog/2025-11-04.md
 
         },
+        {
+          text: "2025-11-08",
+          icon: "mdi:timeline-clock",
+          link: "2025-11-08"  // 对应 /about_blog/2025-11-08.md
+
+        },
       ]
     }
   ],
@@ -108,7 +114,7 @@ export default sidebar({
         {
           text: "游戏",
           icon: "streamline-plump:controller-1-remix",
-          link: "anime.md"  // 对应 /hobby/game.md
+          link: "game.md"  // 对应 /hobby/game.md
         }
       ]
     }
