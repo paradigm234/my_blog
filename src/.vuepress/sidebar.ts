@@ -11,7 +11,7 @@ export default sidebar({
       // 手动列出Java基础的子项（如果有多个文件，逐个添加）
       children: [
         {
-          text: "JavaSE核心",
+          text: "JavaSE",
           icon: "ri:java-fill",
           link: "javase.md"  // 对应 /coding/javase.md
         },
@@ -83,6 +83,12 @@ export default sidebar({
           text: "2025-11-08",
           icon: "mdi:timeline-clock",
           link: "2025-11-08"  // 对应 /about_blog/2025-11-08.md
+
+        },
+        {
+          text: "2025-11-09",
+          icon: "mdi:timeline-clock",
+          link: "2025-11-09"  // 对应 /about_blog/2025-11-09.md
 
         },
       ]

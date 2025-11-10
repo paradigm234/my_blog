@@ -1,3 +1,9 @@
+---
+icon: hugeicons:algorithm
+date: 2025-10-28
+category:
+  -计算机基础408
+---
 # Data Structure
 
 ## 线性表
