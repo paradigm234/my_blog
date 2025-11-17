@@ -18,6 +18,7 @@ export default navbar([
         children: [
           { text: "python", icon: "ant-design:python-outlined", link: "python1" },
           { text: "javase", icon: "streamline-ultimate:java", link: "javase" },
+          { text: "stl", icon: "mdi:language-cpp", link: "stl" },
         ],
       },
     ],
@@ -72,6 +73,7 @@ export default navbar([
           { text: "2025-11-04", icon: "fa6-solid:blog", link: "2025-11-04" },
           { text: "2025-11-08", icon: "fa6-solid:blog", link: "2025-11-08" },
           { text: "2025-11-09", icon: "fa6-solid:blog", link: "2025-11-09" },
+          { text: "2025-11-17", icon: "fa6-solid:blog", link: "2025-11-17" },
         ],
       },
     ],

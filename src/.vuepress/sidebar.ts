@@ -30,6 +30,18 @@ export default sidebar({
           link: "python1.md"  // 对应 /coding/python1.md
         }
       ]
+    },
+    {
+      text: " C++",
+      icon: "mdi:language-cpp",
+      expanded: true,
+      children: [
+        {
+          text: "stl",
+          icon: "mdi:language-cpp",
+          link: "stl.md"  // 对应 /coding/stl.md
+        }
+      ]
     }
   ],
   "/computer_base/": [
@@ -89,6 +101,12 @@ export default sidebar({
           text: "2025-11-09",
           icon: "mdi:timeline-clock",
           link: "2025-11-09"  // 对应 /about_blog/2025-11-09.md
+
+        },
+        {
+          text: "2025-11-17",
+          icon: "mdi:timeline-clock",
+          link: "2025-11-17"  // 对应 /about_blog/2025-11-09.md
 
         },
       ]
