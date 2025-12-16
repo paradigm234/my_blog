@@ -58,6 +58,18 @@ export default sidebar({
         }
       ]
     },
+    {
+      text: "计算机网络",
+      icon: "ooui:network",
+      expanded: true,
+      children: [
+        {
+          text: "计算机网络（更新中）",
+          icon: "ooui:network",
+          link: "Computer Networking.md"  // 对应 /computer_base/Computer Networking.md
+        }
+      ]
+    },
 
   ],
 
@@ -106,7 +118,13 @@ export default sidebar({
         {
           text: "2025-11-17",
           icon: "mdi:timeline-clock",
-          link: "2025-11-17"  // 对应 /about_blog/2025-11-09.md
+          link: "2025-11-17"  // 对应 /about_blog/2025-11-17.md
+
+        },
+        {
+          text: "2025-12-16",
+          icon: "mdi:timeline-clock",
+          link: "2025-12-16"  // 对应 /about_blog/2025-12-16.md
 
         },
       ]
@@ -155,6 +173,11 @@ export default sidebar({
           text: "人工智能基础",
           icon: "hugeicons:ai-book",
           link: "人工智能基础.md"  // 对应 /study/1.md
+        },
+        {
+          text: "数字信号处理",
+          icon: "hugeicons:ai-book",
+          link: "dsp_review.md"  // 对应 /study/1.md
         }
       ]
     }

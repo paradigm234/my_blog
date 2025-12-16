@@ -33,6 +33,7 @@ export default navbar([
         text: "408",
         children: [
           { text: "数据结构与算法", icon: "hugeicons:algorithm", link: "Data Structure" },
+          { text: "计算机网络", icon: "ooui:network", link: "Computer Networking" },
 
         ],
       },
@@ -74,6 +75,7 @@ export default navbar([
           { text: "2025-11-08", icon: "fa6-solid:blog", link: "2025-11-08" },
           { text: "2025-11-09", icon: "fa6-solid:blog", link: "2025-11-09" },
           { text: "2025-11-17", icon: "fa6-solid:blog", link: "2025-11-17" },
+          { text: "2025-12-16", icon: "fa6-solid:blog", link: "2025-12-16" },
         ],
       },
     ],
@@ -90,6 +92,7 @@ export default navbar([
         icon: "emojione-v1:document",
         children: [
           { text: "人工智能基础", icon: "hugeicons:ai-book", link: "人工智能基础" },
+          { text: "数字信号处理", icon: "streamline-plump:wave-signal-square-solid", link: "dsp_review" },
         ],
       },
     ],
