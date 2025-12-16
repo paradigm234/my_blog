@@ -7,6 +7,7 @@ heroImage: /main_logo.png
 heroText: 欢迎来到哈基豪的个人博客
 heroFullScreen: true
 tagline: 塔塔开！
+bgImage: /background.jpg
 projects:
   #- icon: folder-open link、book、newspaper、user-group
   #   name: 项目名称
