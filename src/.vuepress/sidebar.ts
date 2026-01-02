@@ -176,8 +176,13 @@ export default sidebar({
         },
         {
           text: "数字信号处理",
-          icon: "hugeicons:ai-book",
-          link: "dsp_review.md"  // 对应 /study/1.md
+          icon: "streamline-plump:wave-signal-square-solid",
+          link: "dsp_review.md"  // 对应 /study/dsp_review.md
+        },
+        {
+          text: "高频电子线路",
+          icon: "maki:communications-tower",
+          link: "High-Frequency Electronic Circuits.md"  // 对应 /study/High-Frequency Electronic Circuits.md
         }
       ]
     }

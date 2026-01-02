@@ -88,11 +88,12 @@ export default navbar([
     prefix: "/study/",
     children: [
       {
-        text: "有用的学习资料",
+        text: "本科学习资料",
         icon: "emojione-v1:document",
         children: [
           { text: "人工智能基础", icon: "hugeicons:ai-book", link: "人工智能基础" },
           { text: "数字信号处理", icon: "streamline-plump:wave-signal-square-solid", link: "dsp_review" },
+          { text: "高频电子线路", icon: "maki:communications-tower", link: "High-Frequency Electronic Circuits" },
         ],
       },
     ],
