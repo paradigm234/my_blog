@@ -64,7 +64,7 @@ export default sidebar({
       expanded: true,
       children: [
         {
-          text: "计算机网络（更新中）",
+          text: "计算机网络",
           icon: "ooui:network",
           link: "Computer Networking.md"  // 对应 /computer_base/Computer Networking.md
         }
