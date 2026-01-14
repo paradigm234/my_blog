@@ -127,6 +127,12 @@ export default sidebar({
           link: "2025-12-16"  // 对应 /about_blog/2025-12-16.md
 
         },
+        {
+          text: "2026-1-14",
+          icon: "mdi:timeline-clock",
+          link: "2026-1-14"  // 对应 /about_blog/2026-1-14.md
+
+        },
       ]
     }
   ],

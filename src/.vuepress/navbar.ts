@@ -76,6 +76,7 @@ export default navbar([
           { text: "2025-11-09", icon: "fa6-solid:blog", link: "2025-11-09" },
           { text: "2025-11-17", icon: "fa6-solid:blog", link: "2025-11-17" },
           { text: "2025-12-16", icon: "fa6-solid:blog", link: "2025-12-16" },
+          { text: "2026-1-14", icon: "fa6-solid:blog", link: "2026-1-14" },
         ],
       },
     ],
