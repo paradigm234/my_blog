@@ -113,6 +113,7 @@ export default navbar([
           { text: "动漫", icon: "streamline-ultimate:video-call", link: "anime" },
           { text: "围棋", icon: "pixelarticons:chess", link: "go" },
           { text: "音乐", icon: "iconoir:music-double-note-plus", link: "music" },
+          { text: "电影", icon: "icon-park-solid:movie", link: "movie" },
         ],
       }
     ]

@@ -163,6 +163,11 @@ export default sidebar({
           text: "游戏",
           icon: "streamline-plump:controller-1-remix",
           link: "game.md"  // 对应 /hobby/game.md
+        },
+        {
+          text: "电影",
+          icon: "icon-park-solid:movie",
+          link: "movie.md"  // 对应 /hobby/movie.md
         }
       ]
     }
