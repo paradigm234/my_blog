@@ -133,6 +133,12 @@ export default sidebar({
           link: "2026-1-14"  // 对应 /about_blog/2026-1-14.md
 
         },
+        {
+          text: "2026-2-8",
+          icon: "mdi:timeline-clock",
+          link: "2026-2-8"  // 对应 /about_blog/2026-2-8.md
+
+        },
       ]
     }
   ],
@@ -209,12 +215,17 @@ export default sidebar({
         {
           text: "讯飞实习工作总结",
           icon: "streamline-freehand:office-work-wireless",
-          link: "讯飞实习工作总结.md"  // 对应 /something_inside/1.md
+          link: "讯飞实习工作总结.md"  // 对应 /something_inside/讯飞实习工作总结.md
         },
         {
           text: "随便写写",
           icon: "emojione-monotone:fountain-pen",
-          link: "随便写写.md"  // 对应 /something_inside/1.md
+          link: "随便写写.md"  // 对应 /something_inside/随便写写.md
+        },
+        {
+          text: "关于电影美丽心灵的一些想法",
+          icon: "emojione-monotone:fountain-pen",
+          link: "some_thinking_after_beautiful_heart.md"  // 对应 /something_inside/some_thinking_after_beautiful_heart.html.md
         }
       ]
     }

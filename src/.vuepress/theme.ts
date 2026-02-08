@@ -42,9 +42,9 @@ export default hopeTheme({
   // 加密配置
   encrypt: {
     config: {
-      "/demo/encrypt.html": {
+      "/something_inside/some_thinking_after_beautiful_heart.html": {
         hint: "向我发讯息以获取访问权限",
-        password: "Wjh20050612",
+        password: "Wjh20050612!",
       },
     },
   },
