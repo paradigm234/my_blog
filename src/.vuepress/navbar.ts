@@ -53,6 +53,7 @@ export default navbar([
           { text: "讯飞实习工作总结", icon: "streamline-freehand:office-work-wireless", link: "讯飞实习工作总结" },
           { text: "随便写写", icon: "emojione-monotone:fountain-pen", link: "随便写写" },
           { text: "关于电影美丽心灵的一些想法", icon: "emojione-monotone:fountain-pen", link: "some_thinking_after_beautiful_heart" },
+          { text: "转载文章：如何让自己运气变好？", icon: "emojione-monotone:fountain-pen", link: "about_luck_heart" },
 
         ],
       },
@@ -79,6 +80,7 @@ export default navbar([
           { text: "2025-12-16", icon: "fa6-solid:blog", link: "2025-12-16" },
           { text: "2026-1-14", icon: "fa6-solid:blog", link: "2026-1-14" },
           { text: "2026-2-8", icon: "fa6-solid:blog", link: "2026-2-8" },
+          { text: "2026-03-03", icon: "fa6-solid:blog", link: "2026-03-03" },
         ],
       },
     ],

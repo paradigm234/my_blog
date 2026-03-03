@@ -139,6 +139,12 @@ export default sidebar({
           link: "2026-2-8"  // 对应 /about_blog/2026-2-8.md
 
         },
+        {
+          text: "2026-03-03",
+          icon: "mdi:timeline-clock",
+          link: "2026-03-03"  // 对应 /about_blog/2026-03-03.md
+
+        },
       ]
     }
   ],
@@ -226,7 +232,12 @@ export default sidebar({
           text: "关于电影美丽心灵的一些想法",
           icon: "emojione-monotone:fountain-pen",
           link: "some_thinking_after_beautiful_heart.md"  // 对应 /something_inside/some_thinking_after_beautiful_heart.html.md
-        }
+        },
+        {
+          text: "转载文章：如何让自己运气变好？",
+          icon: "emojione-monotone:fountain-pen",
+          link: "about_luck_heart.md"  // 对应 /something_inside/about_luck_heart.md
+        },
       ]
     }
   ]
