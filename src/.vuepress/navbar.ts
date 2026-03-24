@@ -19,6 +19,7 @@ export default navbar([
           { text: "python", icon: "ant-design:python-outlined", link: "python1" },
           { text: "javase", icon: "streamline-ultimate:java", link: "javase" },
           { text: "stl", icon: "mdi:language-cpp", link: "stl" },
+          { text: "HTML", icon: "akar-icons:html-fill", link: "HTML" },
         ],
       },
     ],
@@ -34,6 +35,7 @@ export default navbar([
         children: [
           { text: "数据结构与算法", icon: "hugeicons:algorithm", link: "Data Structure" },
           { text: "计算机网络", icon: "ooui:network", link: "Computer Networking" },
+          { text: "操作系统", icon: "grommet-icons:system", link: "Operating System" },
 
         ],
       },
@@ -80,7 +82,7 @@ export default navbar([
           { text: "2025-12-16", icon: "fa6-solid:blog", link: "2025-12-16" },
           { text: "2026-1-14", icon: "fa6-solid:blog", link: "2026-1-14" },
           { text: "2026-2-8", icon: "fa6-solid:blog", link: "2026-2-8" },
-          { text: "2026-03-03", icon: "fa6-solid:blog", link: "2026-03-03" },
+          { text: "2026-03", icon: "fa6-solid:blog", link: "2026-03-03" },
         ],
       },
     ],

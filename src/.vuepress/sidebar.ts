@@ -42,7 +42,19 @@ export default sidebar({
           link: "stl.md"  // 对应 /coding/stl.md
         }
       ]
-    }
+    },
+    {
+      text: " HTML",
+      icon: "akar-icons:html-fill",
+      expanded: true,
+      children: [
+        {
+          text: "HTML",
+          icon: "akar-icons:html-fill",
+          link: "HTML.md"  // 对应 /coding/HTML.md
+        }
+      ]
+    },
   ],
   "/computer_base/": [
 
@@ -67,6 +79,18 @@ export default sidebar({
           text: "计算机网络",
           icon: "ooui:network",
           link: "Computer Networking.md"  // 对应 /computer_base/Computer Networking.md
+        }
+      ]
+    },
+    {
+      text: "操作系统",
+      icon: "grommet-icons:system",
+      expanded: true,
+      children: [
+        {
+          text: "操作系统",
+          icon: "grommet-icons:system",
+          link: "Operating System.md"  // 对应 /computer_base/Operating System.md
         }
       ]
     },
@@ -140,7 +164,7 @@ export default sidebar({
 
         },
         {
-          text: "2026-03-03",
+          text: "2026-03",
           icon: "mdi:timeline-clock",
           link: "2026-03-03"  // 对应 /about_blog/2026-03-03.md
 
