@@ -1,3 +1,9 @@
+---
+icon: material-icon-theme:python
+date: 2025-10-25
+category:
+  - 编程
+---
 # python
 
 ```python
