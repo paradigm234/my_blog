@@ -94,6 +94,18 @@ export default sidebar({
         }
       ]
     },
+    {
+      text: "计算机组成原理",
+      icon: "ic:twotone-computer",
+      expanded: true,
+      children: [
+        {
+          text: "计算机组成原理",
+          icon: "ic:twotone-computer",
+          link: "Computer Organization and Architecture.md"  // 对应 /computer_base/Computer Organization and Architecture.md
+        }
+      ]
+    },
 
   ],
 

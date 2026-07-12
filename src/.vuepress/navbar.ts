@@ -36,6 +36,7 @@ export default navbar([
           { text: "数据结构与算法", icon: "hugeicons:algorithm", link: "Data Structure" },
           { text: "计算机网络", icon: "ooui:network", link: "Computer Networking" },
           { text: "操作系统", icon: "grommet-icons:system", link: "Operating System" },
+          { text: "计算机组成原理", icon: "ic:twotone-computer", link: "Computer Organization and Architecture" },
 
         ],
       },
