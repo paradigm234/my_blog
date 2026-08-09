@@ -980,3 +980,994 @@ RISC:
 
 RISC寄存器多是因为只能load/store两种主存访问方式，必须要借助大量的寄存器进行计算
 
+## 第五章 中央处理器（CPU）
+
+控制器的基本组成
+
+- CU：控制单元，分析指令，给出控制信号
+- IR：指令寄存器，存放当前执行的指令
+- PC：程序计数器，存放下一条指令地址，有自动加1功能
+
+![image-20260727174950339](/computer_organization_images/image-20260727174950339.png)
+
+![image-20260727175139430](/computer_organization_images/image-20260727175139430.png)
+
+### CPU的功能和基本结构
+
+功能：
+
+指令控制：完成取指令、分析指令和执行指令，即程序的顺序控制
+
+操作控制：一条指令的功能往往是由若干操作性好的组合来实现的，CPU管理并产生操作信号
+
+时间控制：对各种操作加一时间上的控制
+
+数据加工：对数据进行算术和逻辑运算
+
+中断处理：对计算机运行过程中出现的异常情况和特殊请求进行处理
+
+分为控制器和运算器：
+
+- 运算器是负责对数据进行加工
+- 控制器协调并控制计算机各部件执行程序的指令序列，包括取指令，分析指令，执行指令
+
+![image-20260727180529500](/computer_organization_images/image-20260727180529500.png)
+
+中断处理：管理总线及输入输出，处理异常情况和特殊请求
+
+![image-20260727200011152](/computer_organization_images/image-20260727200011152.png)
+
+专用数据通路方式：只要两个器件之间有数据来往，就安排专门的连接线路，根据指令执行过程中的数据和地址的流动方向安排连线线路
+
+问题：成本大，难度大
+
+解决方法：
+
+- 使用多路选择器，根据控制信号选择一路输出
+- 使用三态门，可以控制一路是否输出
+
+![image-20260727200504593](/computer_organization_images/image-20260727200504593.png)
+
+- CPU内部单总线方式：将所有寄存器的输入端和输出端都连接到一条公共的通路上（类似于使能信号）
+
+![image-20260727200647540](/computer_organization_images/image-20260727200647540.png)
+
+- 暂存寄存器：用于暂存从主存读来的数据，这个数据不能存放在通用寄存器中，否则会破坏其原有内容
+
+![image-20260729234148185](/computer_organization_images/image-20260729234148185.png)
+
+控制器的内部结构：
+
+- 程序计数器（PC）：指出下一条指令在主存中的存放地址，CPU就是根据PC的内容去主存中取指令。因程序中指令时顺序执行的，所以PC有自增功能。
+- 指令寄存器：用于保存当前正在执行的那条指令
+- 指令译码器：仅对操作码字段进行译码，向控制器
+- 微操作信号发生器：根据IR的内容（指令）、PSW的内容及时序信号，产生控制整个计算机系统所需的各种控制信号，其结构有组合逻辑型和存储逻辑型两种
+- 时序系统：用于产生各种时序信号，它们都是由统一时钟分频得到的。
+- 存储器地址寄存器（MAR）:用于存放所要访问的主存单元的地址
+- 存储器数据寄存器（MDR）：用于存放向主存写入的信息或从主存中读出的信息
+
+![image-20260730010045296](/computer_organization_images/image-20260730010045296.png)
+
+==MAR通过地址利用地址总线传给主存，主存根据地址信号查找对应单元，找到数据后利用数据总线把找到的数据送到MDR中==
+
+- CPU内部总线：CPU内部器件进行数据传送的公共通路
+
+总图：
+
+![image-20260730010345050](/computer_organization_images/image-20260730010345050.png)
+
+有的寄存器是用户可见，也就是程序员可以通过汇编语言进行编程的寄存器
+
+以下是用户可见：
+
+- PSW
+- ACC
+- Rn(通用寄存器)
+- PC
+
+其他寄存器用户不可见，如：
+
+- 暂存寄存器
+- IR
+- MAR
+- MDR
+- 移位寄存器
+
+![image-20260730010552019](/computer_organization_images/image-20260730010552019.png)
+
+![image-20260730010848024](/computer_organization_images/image-20260730010848024.png)
+
+本章重点为CU--控制单元
+
+数据流动：
+
+- 单总线
+- 多总线
+- 专用通路
+
+### 单总线流动
+
+![image-20260801012102317](/computer_organization_images/image-20260801012102317.png)
+
+内部总线是指同一部件，如CPU内部连接各寄存器及运算部件之间的总线；
+系统总线是指同一台计算机系统的各部件，如CPU、内存、通道和各类IO接口之间互相连接的总线
+
+寄存器之间数据传送：
+
+![image-20260801012034056](/computer_organization_images/image-20260801012034056.png)
+
+主存与CPU之间的数据传送
+
+![image-20260801012215325](/computer_organization_images/image-20260801012215325.png)
+
+![image-20260801012322578](/computer_organization_images/image-20260801012322578.png)
+
+必须指明操作地址，把地址放到MAR中
+
+执行算术或逻辑运算：
+
+比如一条加法指令、微操作序列及控制信号：
+
+![image-20260801012627213](/computer_organization_images/image-20260801012627213.png)
+
+![image-20260801012636578](/computer_organization_images/image-20260801012636578.png)
+
+单总线必须要把其中一个操作数放到暂存寄存器中
+
+![image-20260801012851244](/computer_organization_images/image-20260801012851244.png)
+
+分析：RO是间接寻址，先从R0找到地址，然后再找
+
+- 取指周期
+
+完成指令的取出，放到IR中
+
+![image-20260801013136366](/computer_organization_images/image-20260801013136366.png)
+
+- 间址周期
+
+完成取数操作，被加数再主存中，加数已经放在寄存器R1中
+
+![image-20260801013212654](/computer_organization_images/image-20260801013212654.png)
+
+![image-20260801013512697](/computer_organization_images/image-20260801013512697.png)
+
+- 执行周期
+
+完成取数操作，被加数再主存中，加数已经放在寄存器R1中
+
+![image-20260801013633463](/computer_organization_images/image-20260801013633463.png)
+
+最后把结果写回了主存
+
+![image-20260801013653654](/computer_organization_images/image-20260801013653654.png)
+
+![image-20260801013728625](/computer_organization_images/image-20260801013728625.png)
+
+### 专用数据通路
+
+![image-20260801145701490](/computer_organization_images/image-20260801145701490.png)
+
+取指周期：
+
+![image-20260801150422096](/computer_organization_images/image-20260801150422096.png)
+
+MDR和MAR：
+
+- MDR与主存是双向数据流动的
+- MAR与主存是单向，执行读不能写
+
+![image-20260801150943450](/computer_organization_images/image-20260801150943450.png)
+
+==只有寄存器才可以打括号==
+
+![image-20260801151300782](/computer_organization_images/image-20260801151300782.png)
+
+![image-20260801155642284](/computer_organization_images/image-20260801155642284.png)
+
+![image-20260801151612630](/computer_organization_images/image-20260801151612630.png)
+
+![image-20260801155558934](/computer_organization_images/image-20260801155558934.png)
+
+### 硬布线控制器
+
+![image-20260801160625821](/computer_organization_images/image-20260801160625821.png)
+
+指令周期流程：
+
+- 取指周期
+- 间址周期（间接寻址）
+- 执行周期
+- 中断周期（处理中断信号）
+
+CU发出一个微命令，可完成对应微操作。
+
+一个节拍内可以并行完成多个“相容的”微操作
+
+同一个微操作可能在不同指令的不同阶段被使用。
+
+不同指令的执行周期所需节拍数各不相同。为了简化设计，选择定长的机器周期，以可能出现的最大节拍数为准（通常以访存所需节拍数作为参考）
+
+若实际所需节拍数比较少，可以将微操作安排在机器周期末尾几个节拍上进行
+
+![image-20260802095558263](/computer_organization_images/image-20260802095558263.png)
+
+以上图很重要
+
+操作指令码、目前的机器周期、节拍信号、机器状态条件
+
+硬布线控制器的设计
+
+- 分析每个阶段的微操作序列：确定哪些指令在什么阶段在什么条件下会使用到的微操作
+- 选择CPU的控制方式：采用定长机器周期还是不定长机器周期，每个机器周期安排几个节拍？
+- 安排微操作序列：如何用三个节拍完整整个机器周期内的所有微操作
+- 电路设计：确定每个微操作命令的逻辑表达式，并用电路实现
+
+![image-20260802101627824](/computer_organization_images/image-20260802101627824.png)
+
+![image-20260802101653354](/computer_organization_images/image-20260802101653354.png)
+
+最后一步：找到有效地址后把原先的逻辑地址覆盖，方便下一步操作
+
+![image-20260802102346368](/computer_organization_images/image-20260802102346368.png)
+
+A0在这里是符号位，BAN X 的意思是如果X为负数，就跳转到IR的地址，如果为正数，就正常PC+1
+
+安排微操作书序的原则：
+
+假设一个机器周期三个节拍：
+
+- 原则一：微操作先后顺序不得随意更改
+- 原则二：被控对象不同的微操作，尽量安排在一个节拍完成
+- 原则三：占用时间较短的微操作，尽量安排在一个节拍内完成，并允许有先后顺序
+
+安排时序周期：
+
+![image-20260802103212844](/computer_organization_images/image-20260802103212844.png)
+
+M（MAR）->MDR 从主存取数据，用时较长，因此必须一个时钟周期才能保证微操作的完成
+
+MDR-> IR 是CPU内部寄存器的数据传送，速度更快，因此在一个时钟周期内可以紧接着完成OP（IR）-> ID也就是一次同时发出两个微命令
+
+非访存指令（不用进入间址周期）：
+
+![image-20260802110056982](/computer_organization_images/image-20260802110056982.png)
+
+访存指令：
+
+![image-20260802110156425](/computer_organization_images/image-20260802110156425.png)
+
+组合逻辑设计：
+
+![image-20260802110505335](/computer_organization_images/image-20260802110505335.png)
+
+![image-20260802110809257](/computer_organization_images/image-20260802110809257.png)
+
+![image-20260802110929832](/computer_organization_images/image-20260802110929832.png)
+
+简址阶段：
+
+![image-20260802111737353](/computer_organization_images/image-20260802111737353.png)
+
+IND = 0说明间接寻址结束，执行操作开始
+
+执行周期：
+
+![image-20260802111823899](/computer_organization_images/image-20260802111823899.png)
+
+对于M（MAR） -> MDR微操作：
+
+FE取指T1，IND间址T1,EX执行周期T1均要执行这个微操作
+
+![image-20260802115118245](/computer_organization_images/image-20260802115118245.png)
+
+得到逻辑表达式就转化为数字电路：
+
+![image-20260802115156034](/computer_organization_images/image-20260802115156034.png)
+
+然后将电路集成到CU内部，然后接上信号就好了
+
+设计步骤：
+
+- 分析每个阶段的微操作序列
+- 选择CPU的控制方式
+- 安排微操作时序
+- 电路设计：1、列出操作时间表。2、写出微操作命令的最简表达式。3，画出逻辑图。
+
+硬布线控制器特点：
+
+指令越多，设计和实现越复杂，因此一般运用于RISC（精简指令集）如果扩充一条新的指令，则控制器的设计就要大概，因此扩充指令较为困难，由于使用纯硬件实现控制，因此执行速度较快。微操作控制信号由组合逻辑电路即时产生。
+
+### 微程序控制器
+
+引入软件思想的控制器
+
+程序：由指令序列组成。
+
+指令是由各种微操作序列组成
+
+现在来引入微指令来完成微操作，继续套娃
+
+微程序：由微指令序列组成，每一种指令对应一个微程序
+
+指令是对程序执行步骤的描述
+微指令是对程序指令执行步骤的描述
+
+![image-20260802120337047](/computer_organization_images/image-20260802120337047.png)
+
+==微命令控制硬件动作，多个微命令形成微操作，多个微操作组成微指令，多个微指令组成一条机器指令。==
+
+微指令基本格式
+
+操作控制 + 顺序控制（指明下一条微指令的地址）
+
+CU的基本结构
+
+控制存储器CM：用于存放各指令对应的微程序，控制存储器可用于只读存储器ROM构成
+
+CMAR：微地址寄存器，接收为地址形成部件送来的微地址，为在CM中读取微指令做准备
+
+地址译码：将地址码转化为存储单元控制信号
+
+微地址形成部件：产生初试微地址和后继微地址，以保证微指令的连续执行。
+
+顺序逻辑：标志+CLK
+
+CMDR：用于存放从CM中取出的微指令，它的同微指令字长相等。
+
+![image-20260802130425828](/computer_organization_images/image-20260802130425828.png)
+
+![image-20260802130704334](/computer_organization_images/image-20260802130704334.png)
+
+![image-20260802135521409](/computer_organization_images/image-20260802135521409.png)
+
+![image-20260802135731659](/computer_organization_images/image-20260802135731659.png)
+
+![image-20260802140542252](/computer_organization_images/image-20260802140542252.png)
+
+程序由指令组成，微程序由微指令组成，微指令可能会对应一个或者多个微操作，主存储器存放指令，控制器存储器是存放微指令的，MAR/CMAR
+
+### 微指令的设计
+
+微命令和微操作是一一对应的，一个微命令对应一根输出线
+
+有的微命令可以并行执行，因此一条微指令可以包含多个微命令
+
+![image-20260803212808208](/computer_organization_images/image-20260803212808208.png)
+
+1、水平型微命令
+
+==一条微命令能定义多个可并行的微命令==
+
+操作控制 + 顺序控制
+
+![image-20260803212940537](/computer_organization_images/image-20260803212940537.png)
+
+优点：微程序端，执行速度快
+
+缺点：微指令长，编写微程序比较麻烦
+
+2、垂直型微指令
+
+一条微指令只能定义一个微命令，由微操作码字段规定具体功能
+
+![image-20260803212948588](/computer_organization_images/image-20260803212948588.png)
+
+优点：微指令短，简单，规整，便于编写微程序
+
+缺点：微程序很长，执行速度慢，工作效率低
+
+![image-20260803212955206](/computer_organization_images/image-20260803212955206.png)
+
+#### 微指令的编码方式
+
+微指令的编码方式又称微指令的控制方式，它是指如何对微指令的控制字段进行编码，以形成控制信号。编码的目标是在保证速度的情况下，尽量缩短微指令字长。
+
+直接编码：
+
+![image-20260803220127358](/computer_organization_images/image-20260803220127358.png)
+
+字段直接编码：
+
+![image-20260803221037276](/computer_organization_images/image-20260803221037276.png)
+
+一般把互斥的微操作放到同一个段里
+
+![image-20260803221655240](/computer_organization_images/image-20260803221655240.png)
+
+优点：可以缩短微命令字长
+
+缺点：要通过译码电路后再发出微命令，因此比直接编码方式慢
+
+![image-20260803221839190](/computer_organization_images/image-20260803221839190.png)
+
+如何确定下一条指令的地址：
+
+1、断定方式：直接根据微指令的下地址字段直接给出后继微指令的地址
+
+2、根据机器指令的操作码形成，当机器指令至寄存器后，微指令的地址由操作码经微地址形成部件形成
+
+3、增量计数器法：（CMAR）+ 1 -> CMAR
+
+4、分支转移 转移方式：指明判别条件
+
+5、通过测试网络
+
+![image-20260803223442454](/computer_organization_images/image-20260803223442454.png)
+
+6、由硬件产生微程序入口地址
+
+==第一条微指令地址==由专门==硬件==产生
+
+中断周期由==硬件==产生==中断周期微程序首地址==
+
+![image-20260803225524358](/computer_organization_images/image-20260803225524358.png)
+
+重点：直接编码，字段直接编码，断定法，计数器法
+
+#### 微程序控制单元的设计（可能不考）
+
+![image-20260803225943955](/computer_organization_images/image-20260803225943955.png)
+
+设计步骤：
+
+1、分析每个阶段的微操作序列
+2、写出对应机器指令的微操作命令及节拍安排
+3、确定微指令格式
+4、编写微指令码点
+
+![image-20260803231820883](/computer_organization_images/image-20260803231820883.png)
+
+![image-20260803232147698](/computer_organization_images/image-20260803232147698.png)
+
+根据微操作个数决定采用何种编码方式，以确定微指令的操作控制字段的位数，根据CM中存储的微指令总数，确定微指令的顺序控制字段的位数。最后按照操作控制字段位数和顺序控制字段位数就可以确定微指令字长
+
+![image-20260803234259572](/computer_organization_images/image-20260803234259572.png)
+
+### 指令流水线
+
+一条指令的执行过程可以分为多个阶段，根据计算机的不同，具体的分法也不同。
+
+取指 + 分析 + 执行
+
+取指：根据PC内容访问主存储器，取出一条指令送到IR中
+
+分析：对指令操作码进行译码，按照给定的寻址方式和地址字段中的内容形成操作数的有效地址EA，并从有效地址EA中取出操作数
+
+执行：根据操作码字段，完成指令规定的功能，即把运算结果写到通用寄存器或主存中
+
+特点：每个阶段用到的硬件不一样
+
+#### 顺序执行方式
+
+1、顺序执行方式
+
+![image-20260804193003645](/computer_organization_images/image-20260804193003645.png)
+
+2、一次重叠方式
+
+![image-20260804193058838](/computer_organization_images/image-20260804193058838.png)
+
+3、二次重叠执行方式
+
+![image-20260804193213207](/computer_organization_images/image-20260804193213207.png)
+
+#### 流水线性能指标
+
+![image-20260804193311553](/computer_organization_images/image-20260804193311553.png)
+
+性能指标：
+
+- 吞吐率：单位时间内完成的任务数量
+- 加速比：完成同样一批任务，不适用流水线所用的时间与使用流水线所用时间之比
+- 效率：流水线的设备利用率称为流水线的效率
+
+吞吐率：
+
+![image-20260804193622066](/computer_organization_images/image-20260804193622066.png)
+
+装入时间：第一条指令的时间
+
+排空时间：最后一条所用的时间
+
+![image-20260804193932410](/computer_organization_images/image-20260804193932410.png)
+
+加速比：
+
+![image-20260804232317764](/computer_organization_images/image-20260804232317764.png)
+
+效率：
+
+在时空图上，流水线的效率定义为完成n个任务占用的时空区有效面积与n个任务所用的时间与k个流水段所围成的时空区总面积之比
+
+![image-20260804232853976](/computer_organization_images/image-20260804232853976.png)
+
+#### 指令流水线影响因素
+
+五段式指令流水线
+
+![image-20260805171025915](/computer_organization_images/image-20260805171025915.png)
+
+每个机器周期时间花销可能不一样
+
+为了方便设计，每个阶段耗时取成一样，以最长耗时为准。即此处应将机器周期设置为100ns
+
+流水线每个功能段部分后面都要有一个缓冲寄存器，或称为锁存器，其作用是保存流水段的执行结果，提供给下一流水段使用
+
+instruction cache：取指阶段大部分情况下都可以从cache中命中
+
+data cache:大部分情况下都能命中数据
+
+registers：通用寄存器
+
+IMM：存储立即数的锁存器
+
+==ALU之后不一定要写到cache或主存，也有可能写到通用寄存器中==
+
+影响因素：
+
+- 结构相关（资源冲突）
+- 数据相关（数据冲突）
+- 控制相关（控制冲突）
+
+![image-20260805172312486](/computer_organization_images/image-20260805172312486.png)
+
+![image-20260805172514364](/computer_organization_images/image-20260805172514364.png)
+
+方法一：等一会
+
+方法二：增加资源
+
+![image-20260805172640134](/computer_organization_images/image-20260805172640134.png)
+
+同步问题，sub必须要add把数据放到r1里面后才可以
+
+最后一条不会和第一条冲突，但是第二第三四条都会和第一条数据冲突
+
+解决办法：
+
+![image-20260805172819514](/computer_organization_images/image-20260805172819514.png)
+
+阻塞等待
+
+NOP（软件）为空指令，STALL（硬件）是阻塞，都可以实现解决方法
+
+数据旁路技术：
+
+![image-20260805173033065](/computer_organization_images/image-20260805173033065.png)
+
+红笔的数据旁路，直接把第一条指令的ALU结果作为第二条的输入
+
+编译优化：
+
+通过编译器调整命令顺序来解决，也就是先干点别的指令，不需要前置指令的先操作，等不冲突了再进行。
+
+控制相关：当流水线遇到转移指令和其他改变PC值的指令造成断流的时候会引起控制相关。
+
+解决办法：
+
+1.转移指令分支预测，简单预测，动态预测
+
+2.预取专业成功和不成功的两个控制流方向上的指令
+
+3、加快和提前形成条形码
+
+4、提高转移方向的猜准率
+
+#### 指令流水线分类（可能不考）
+
+- 部件功能级，处理机级，处理机间级流水线
+- 单功能流水线和多功能流水线
+- 动态流水线和静态流水线
+
+#### 流水线的多发技术
+
+![image-20260805180302481](/computer_organization_images/image-20260805180302481.png)
+
+每个时钟周期内可并发多条独立指令
+
+要配置多个功能部件
+
+==不能调整指令的执行顺序==
+
+通过编译优化技术，把可并行执行的指令搭配起来
+
+是一种空分复用技术
+
+![image-20260805181436453](/computer_organization_images/image-20260805181436453.png)
+
+不能调整指令执行顺序
+
+是一种时分复用技术，靠编译程序解决优化问题
+
+流水线速度是原来的三倍
+
+![image-20260805181606842](/computer_organization_images/image-20260805181606842.png)
+
+多条并行指令组成一个超长指令
+
+要提供多个相互独立的部件
+
+![image-20260805181642041](/computer_organization_images/image-20260805181642041.png)
+
+### 五段式流水线
+
+**LOAD指令：**
+
+![image-20260805213614230](/computer_organization_images/image-20260805213614230.png)
+
+EX:运算，将结果存入EX段锁存器
+
+M：空段
+
+WB：将运算结果写回指定寄存器
+
+**store指令：**
+
+![image-20260805220901828](/computer_organization_images/image-20260805220901828.png)
+
+- IF：根据PC从这里Cache取指令至IF段的锁存器
+- ID：将基址寄存器的值放到锁存器A，将偏移量的值放到lmm
+- EX：运算，得到有效地址
+- M：从数据Cache中取数并放入锁存器
+- WB：将取出的数写回寄存器
+
+==通常来说，RISC处理器只有LOAD（取数）和STORE（存数）指令才能访问主存==
+
+**条件转移指令的执行过程：**
+
+![image-20260805224529772](/computer_organization_images/image-20260805224529772.png)
+
+- IF：根据PC从指令Cache取指令至IF段的锁存器
+- ID：进行比较的两个数放入锁存器AB，偏移量放入lmm
+- EX：运算，比较两个数
+- M：将目标PC值写回PC
+
+**无条件转移指令的执行过程：**
+
+![image-20260806155408949](/computer_organization_images/image-20260806155408949.png)
+
+- IF：根据PC从指令Cache取指令至IF段的锁存器
+- ID：偏移量放入Imm
+- EX：将目标PC值写回PC（作图没画全）
+- M：空段
+- WB：空段
+
+![image-20260806155523822](/computer_organization_images/image-20260806155523822.png)
+
+![image-20260806155921325](/computer_organization_images/image-20260806155921325.png)
+
+![image-20260806160018183](/computer_organization_images/image-20260806160018183.png)
+
+### 多处理器基本概念
+
+- 单指令流单数据流
+
+![image-20260806162014140](/computer_organization_images/image-20260806162014140.png)
+
+![image-20260806161927768](/computer_organization_images/image-20260806161927768.png)
+
+采用多模块交叉可以提升读写效率
+
+- 单指令流多数据流（SIMD）
+
+![image-20260806162150661](/computer_organization_images/image-20260806162150661.png)
+
+![image-20260806162338692](/computer_organization_images/image-20260806162338692.png)
+
+每一个时刻只有一条指令在执行，但是多个存储器可以并行执行同一个指令
+
+- 多指令流单数据流（MISD,现实中不存在）
+
+- 多指令流多数据流系统（MIMD）
+
+![image-20260806162654209](/computer_organization_images/image-20260806162654209.png)
+
+线程/进程型并行
+
+![image-20260806162738647](/computer_organization_images/image-20260806162738647.png)
+
+### 向量处理器
+
+![image-20260806163949039](/computer_organization_images/image-20260806163949039.png)
+
+![image-20260806163958428](/computer_organization_images/image-20260806163958428.png)
+
+![image-20260806164047090](/computer_organization_images/image-20260806164047090.png)
+
+### 硬件多线程
+
+在硬件层面支持多线程的处理器
+
+![image-20260806180158679](/computer_organization_images/image-20260806180158679.png)
+
+- 细粒度多线程：处理器在各个时钟周期切换线程，交替执行不同的线程的指令，切换代价低。
+- 粗粒度多线程：只有流水线阻塞的时候再切换线程，切换代价较高。
+
+![image-20260806180358232](/computer_organization_images/image-20260806180358232.png)
+
+## 第六章 总线
+
+![image-20260806180616583](/computer_organization_images/image-20260806180616583.png)
+
+![image-20260806180717924](/computer_organization_images/image-20260806180717924.png)
+
+可并行发送4bit数据，同一时刻只有一个部件发送数据，但是有多个部件接收数据
+
+![image-20260806180914987](/computer_organization_images/image-20260806180914987.png)
+
+==总线是一组能为多个部件分时共享的公共信息传送线路==
+
+![image-20260806181105550](/computer_organization_images/image-20260806181105550.png)
+
+为了更好的的解决IO设备和主机之间连接的灵活性问题，计算机的结构从分散连接发展为总线连接
+
+- 分时性
+- 共享性
+
+### 总线的特性
+
+![image-20260806181333175](/computer_organization_images/image-20260806181333175.png)
+
+### 总线分类
+
+- 串行总线：1bit1bit的接收（如USB）
+
+优点：只需要一条传输线，成本低廉，广泛应用于长距离传输，应用于计算机内部时，可以节省布线空间
+
+缺点：在数据发送和接收的时候要进行拆卸和发配，要考虑串行并行转换问题。
+
+- 并行总线：每次可以传多位（如CPU总线）
+
+优点：总线的逻辑时序比较简单，电路实现起来比较容易
+
+缺点：信号线数量很多，占用更多的布线空间，远距离传输成本高，由于工作频率较高的时候，信号线之间的干扰比较大，对每条线等长的要求也很高，所以无法持续提升工作频率
+
+==所以串行不一定比并行慢！！==
+
+![image-20260806181730662](/computer_organization_images/image-20260806181730662.png)
+
+按照传输信息内容不同，分为：
+
+数据总线、地址总线、控制总线
+
+![image-20260806181940954](/computer_organization_images/image-20260806181940954.png)
+
+![image-20260806191058723](/computer_organization_images/image-20260806191058723.png)
+
+![image-20260806191109168](/computer_organization_images/image-20260806191109168.png)
+
+数据通路表示的是数据流经的路径，数据总线是承载的媒介
+
+### 系统总线的结构
+
+- 单总线结构
+- 双总线结构
+- 三总线结构
+
+1、单总线结构
+
+![image-20260806192129227](/computer_organization_images/image-20260806192129227.png)2、双总线结构
+
+![image-20260806192324958](/computer_organization_images/image-20260806192324958.png)
+
+加了一个通道
+
+优点：将较低速的IO设备从单总线上分离出来，实现存储器总线和IO总线分离
+缺点：需要增加通道等硬件设备
+
+3、三总线结构
+
+ ![image-20260806192809326](/computer_organization_images/image-20260806192809326.png)
+
+优点：提高了IO设备的性能，使其更快相响应命令
+
+缺点：系统工作效率较低
+
+![image-20260806193058579](/computer_organization_images/image-20260806193058579.png)
+
+![image-20260806193110984](/computer_organization_images/image-20260806193110984.png)
+
+### 总线的性能指标
+
+![image-20260806194324916](/computer_organization_images/image-20260806194324916.png)
+
+![image-20260806194417373](/computer_organization_images/image-20260806194417373.png)
+
+![image-20260806194613026](/computer_organization_images/image-20260806194613026.png)
+
+总线带宽 = 总线工作频率*总线宽度
+
+![image-20260806194925380](/computer_organization_images/image-20260806194925380.png)
+
+![image-20260806195001757](/computer_organization_images/image-20260806195001757.png)
+
+![image-20260806195156044](/computer_organization_images/image-20260806195156044.png)
+
+![image-20260806195332096](/computer_organization_images/image-20260806195332096.png)
+
+### 总线操作和定时
+
+总线周期四个阶段：
+
+![image-20260807110502800](/computer_organization_images/image-20260807110502800.png)
+
+- 同步定时方式
+
+![image-20260807112851817](/computer_organization_images/image-20260807112851817.png)
+
+同步定时方式是指系统采用一个统一的时钟信号来协调发送和接收双方的传送定时关系
+
+若干个时钟产生相等的时间间隔，每个间隔构成一个数据传送
+
+因为采用统一的时钟，每个部件或设备发送或接收信息都在固定的总线传送周期中，一个总线的传送周期结束，下一个总线传送周期开始
+
+- 优点：传送速度快，具有较高的传输速率；总线控制逻辑简单
+- 缺点：主从设备属于强制同步；不能及时进行数据通信的有效性经验，可靠性较差
+
+==同步通信适用于总线长度较短及总线所接部件的存取时间比较接近的系统==
+
+- 异步定时方式：
+
+![image-20260807160856207](/computer_organization_images/image-20260807160856207.png)
+
+![image-20260807161233502](/computer_organization_images/image-20260807161233502.png)
+
+![image-20260807161827634](/computer_organization_images/image-20260807161827634.png)
+
+- 半同步通信
+
+![image-20260807161933636](/computer_organization_images/image-20260807161933636.png)
+
+- 分离式通信
+
+![image-20260807162155920](/computer_organization_images/image-20260807162155920.png)
+
+![image-20260807162413179](/computer_organization_images/image-20260807162413179.png)
+
+## 第七章 输入输出系统
+
+![image-20260807163004721](/computer_organization_images/image-20260807163004721.png)
+
+CPU如何控制键盘IO的完成：
+
+![image-20260807163121119](/computer_organization_images/image-20260807163121119.png)
+
+数据流：
+
+键盘 -> IO接口的数据寄存器 -> 数据总线 -> CPU某寄存器 -> 主存（变量i的对应位置）
+
+DMA控制方式（直接内存访问）
+
+![image-20260807163556025](/computer_organization_images/image-20260807163556025.png)
+
+![image-20260807163650275](/computer_organization_images/image-20260807163650275.png)
+
+DMA控制器与主存每次传送1个字，放传送万一整块数据后才想CPU发出中断请求
+
+通道控制方式：
+
+可以理解为弱鸡版CPU,通道可以识别并执行一系列通道指令，通道指令种类，功能通常比较单一
+
+![image-20260807164005197](/computer_organization_images/image-20260807164005197.png)
+
+执行完成后，向CPU发出中断请求
+
+![image-20260807164210585](/computer_organization_images/image-20260807164210585.png)
+
+在含有通道的计算机中，CPU执行IO指令对通道发出命令，由通道执行一些列通道指令，代替CPU对IO设备进行管理
+
+![image-20260807164334668](/computer_organization_images/image-20260807164334668.png)
+
+### IO接口
+
+作用：
+
+![image-20260807164659524](/computer_organization_images/image-20260807164659524.png)
+
+![image-20260807164814430](/computer_organization_images/image-20260807164814430.png)
+
+![image-20260807165930583](/computer_organization_images/image-20260807165930583.png)
+
+统一编制，独立编制
+
+![image-20260807170652757](/computer_organization_images/image-20260807170652757.png)
+
+![image-20260807171156757](/computer_organization_images/image-20260807171156757.png)
+
+IO接口的分类
+
+按照外设和接口一侧数据传送方式：
+
+- 并行接口：一个字节或一个字所有位同时传送
+- 串行接口：一位一位地传送
+
+按照主机访问IO设备的控制方式：
+
+- 程序查询接口
+- 中断接口
+- DMA接口
+
+按功能选择的灵活性可分为
+
+- 可编程接口
+- 不可编程接口
+
+![image-20260807171633311](/computer_organization_images/image-20260807171633311.png)
+
+![image-20260807174924368](/computer_organization_images/image-20260807174924368.png)
+
+![image-20260807175257754](/computer_organization_images/image-20260807175257754.png)
+
+![image-20260807175327197](/computer_organization_images/image-20260807175327197.png)
+
+![image-20260807180609435](/computer_organization_images/image-20260807180609435.png)
+
+![image-20260807180651970](/computer_organization_images/image-20260807180651970.png)
+
+- 独占查询：CPU100%的时间都在查询IO状态，完全串行
+- 定时查询：在保证数据不丢失的情况，每隔一段时间CPU就查询一次IO状态。查询的间隔内CPU可以执行其他程序。
+
+![image-20260807180927386](/computer_organization_images/image-20260807180927386.png)
+
+### 程序中断方式
+
+![image-20260807181147176](/computer_organization_images/image-20260807181147176.png)
+
+![image-20260808121206650](/computer_organization_images/image-20260808121206650.png)
+
+- 非屏蔽中断：关中断时也会被响应
+- 可屏蔽中断：关中断时不会被响应
+
+![image-20260808134847360](/computer_organization_images/image-20260808134847360.png)
+
+![image-20260808135159168](/computer_organization_images/image-20260808135159168.png)
+
+![image-20260808135756522](/computer_organization_images/image-20260808135756522.png)
+
+![image-20260808140014490](/computer_organization_images/image-20260808140014490.png)
+
+![image-20260808140238074](/computer_organization_images/image-20260808140238074.png)
+
+![image-20260809215155314](/computer_organization_images/image-20260809215155314.png)
+
+![image-20260809215715315](/computer_organization_images/image-20260809215715315.png)
+
+![image-20260809215725370](/computer_organization_images/image-20260809215725370.png)
+
+###  DMA控制器
+
+![image-20260809224417120](/computer_organization_images/image-20260809224417120.png)
+
+CPU向DMA控制器指明要输入还是输出；要传送多少个数据，数据在主存、外设中的地址
+
+- 接收外设发出的DMA请求，并向CPU发出总线请求
+- CPU响应词总线请求，发出总线响应信号，接管总线控制权，进入DMA操作周期
+- 确定传送数据的主存单元地址及长度，并能主动修改主存地址计数和传送长度计数
+- 规定数据在主存和外设间的传送方向，发出读写等控制信号，执行数据传送操作
+- 向CPU报告DMA操作的结束
+
+![image-20260809232450506](/computer_organization_images/image-20260809232450506.png)
+
+![image-20260809232549923](/computer_organization_images/image-20260809232549923.png)
+
+![image-20260809232613259](/computer_organization_images/image-20260809232613259.png)
+
+![image-20260809232817736](/computer_organization_images/image-20260809232817736.png)
+
+==IO与主机并行工作，程序和传送并行工作==
+
+DMA和CPU同时访问主存导致冲突怎么办？
+
+- 停止CPU访问
+- DMA和CPU交替
+- 周期挪用
+
+![image-20260809233518990](/computer_organization_images/image-20260809233518990.png)
+
+同时访存，DMA优先，不然寄存器内的数据会被刷新覆盖
+
+![image-20260809233619590](/computer_organization_images/image-20260809233619590.png)
+
+![image-20260809233755789](/computer_organization_images/image-20260809233755789.png)
+
