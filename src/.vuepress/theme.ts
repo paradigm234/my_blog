@@ -46,7 +46,16 @@ export default hopeTheme({
         hint: "向我发讯息以获取访问权限",
         password: "Wjh20050612!",
       },
+      "/something_inside/about_luck_heart.html": {
+        hint: "向我发讯息以获取访问权限",
+        password: "Wjh20050612!",
+      },
+      "/something_inside/随便写写.html": {
+        hint: "向我发讯息以获取访问权限",
+        password: "Wjh20050612!",
+      },
     },
+
   },
 
   // 多语言配置
