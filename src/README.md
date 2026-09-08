@@ -4,7 +4,7 @@ layout: Blog
 icon: house
 title: 主页
 heroImage: /main_logo.png
-heroText: 欢迎来到哈基豪的个人博客
+heroText: 欢迎来到JHW的个人博客
 heroFullScreen: true
 tagline: 塔塔开！
 bgImage: /background.jpg
