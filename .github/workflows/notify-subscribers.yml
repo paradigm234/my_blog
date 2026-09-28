@@ -27,7 +27,7 @@ jobs:
       - name: 等待新版本上线
         run: |
           for i in $(seq 1 40); do
-            if curl -sf "https://junhaowang.cn/?v=${{ github.sha }}&_=$RANDOM" | grep -q "${{ github.sha }}"; then
+            if curl -sfL "https://junhaowang.cn/?v=${{ github.sha }}&_=$RANDOM" | grep -q "${{ github.sha }}"; then
               echo "✅ 新版本已上线（第 ${i} 次探测）"
               exit 0
             fi
