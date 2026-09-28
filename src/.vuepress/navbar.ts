@@ -132,4 +132,11 @@ export default navbar([
   //   icon: "book",
   //   link: "https://theme-hope.vuejs.press/zh/",
   // },
+
+  // 博客订阅
+  {
+    text: "博客订阅",
+    icon: "envelope",
+    link: "/subscribe",
+  },
 ]);
