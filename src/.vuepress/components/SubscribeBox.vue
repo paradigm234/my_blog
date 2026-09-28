@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref } from "vue";
 
 import { API_BASE } from "../subscribe-api";
 
@@ -15,9 +15,13 @@ const error = ref("");
 const doneMessage = ref("");
 const count = ref<number | null>(null);
 const cooldown = ref(0);
+const otpFocused = ref(false);
+const otpRef = ref<HTMLInputElement | null>(null);
 let timer: number | undefined;
 
-const stepIndex = () => (step.value === "email" ? 0 : step.value === "code" ? 1 : 2);
+const cells = [0, 1, 2, 3, 4, 5];
+const canSubmitEmail = computed(() => email.value.length > 0 && !loading.value && cooldown.value <= 0);
+const canSubmitCode = computed(() => code.value.length === 6 && !loading.value);
 
 function msgOf(e: unknown): string {
   return e instanceof Error ? e.message : "网络异常，请稍后再试";
@@ -48,7 +52,7 @@ function startCooldown(seconds: number) {
 async function requestCode() {
   error.value = "";
   if (!email.value) {
-    error.value = "请先填写邮箱";
+    error.value = "请先填写邮箱地址";
     return;
   }
   loading.value = true;
@@ -56,6 +60,8 @@ async function requestCode() {
     await call("/api/subscribe/request", { email: email.value, action: mode.value });
     step.value = "code";
     startCooldown(60);
+    await nextTick();
+    otpRef.value?.focus();
   } catch (e) {
     error.value = msgOf(e);
   } finally {
@@ -65,8 +71,8 @@ async function requestCode() {
 
 async function confirm() {
   error.value = "";
-  if (!code.value) {
-    error.value = "请填写验证码";
+  if (code.value.length !== 6) {
+    error.value = "请输入 6 位验证码";
     return;
   }
   loading.value = true;
@@ -89,6 +95,16 @@ async function confirm() {
   }
 }
 
+function onCodeInput(event: Event) {
+  const el = event.target as HTMLInputElement;
+  code.value = el.value.replace(/\D/g, "").slice(0, 6);
+  el.value = code.value;
+}
+
+function focusOtp() {
+  otpRef.value?.focus();
+}
+
 function switchMode() {
   mode.value = mode.value === "subscribe" ? "unsubscribe" : "subscribe";
   reset();
@@ -107,7 +123,7 @@ async function fetchCount() {
     const data = await res.json();
     if (data?.code === 0) count.value = data.data?.count ?? null;
   } catch {
-    // 后端没起来时静默失败，不打扰读者
+    // 后端异常时静默失败，不打扰读者
   }
 }
 
@@ -115,291 +131,442 @@ onMounted(fetchCount);
 </script>
 
 <template>
-  <div class="sub-card">
-    <div class="sub-steps" aria-hidden="true">
-      <template v-for="(label, i) in ['填写邮箱', '输入验证码', '完成']" :key="label">
-        <div class="sub-step" :class="{ active: stepIndex() >= i, current: stepIndex() === i }">
-          <span class="sub-step__dot">{{ stepIndex() > i ? "✓" : i + 1 }}</span>
-          <span class="sub-step__label">{{ label }}</span>
-        </div>
-        <div v-if="i < 2" class="sub-step__line" :class="{ active: stepIndex() > i }" />
-      </template>
-    </div>
+  <section class="panel">
+    <header class="panel__head">
+      <div>
+        <h3 class="panel__title">{{ mode === "subscribe" ? "订阅更新" : "取消订阅" }}</h3>
+        <p class="panel__sub">
+          {{
+            mode === "subscribe"
+              ? "留下邮箱，有新内容时收到一封简短的邮件"
+              : "输入订阅时使用的邮箱，收验证码后即可退订"
+          }}
+        </p>
+      </div>
+      <span v-if="count !== null" class="panel__stat">
+        <span class="panel__stat-dot" />
+        {{ count }} 位读者
+      </span>
+    </header>
 
-    <div v-if="step === 'done'" class="sub-done">
-      <div class="sub-done__icon">✓</div>
-      <p class="sub-done__text">{{ doneMessage }}</p>
-      <p class="sub-done__hint">
-        {{ mode === "subscribe" ? "以后有新内容我会发邮件通知你，随时可退订。" : "如果这是误操作，可以再订阅一次。" }}
+    <div v-if="step === 'done'" class="done">
+      <span class="done__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6L9 17l-5-5" />
+        </svg>
+      </span>
+      <p class="done__title">{{ doneMessage }}</p>
+      <p class="done__hint">
+        {{ mode === "subscribe" ? "以后有新内容会发邮件通知你，随时可以退订。" : "如果想再次订阅，随时回来就好。" }}
       </p>
-      <button class="sub-btn sub-btn--ghost" type="button" @click="reset">再操作一次</button>
+      <button class="btn btn--outline" type="button" @click="reset">再操作一次</button>
     </div>
 
-    <form v-else class="sub-form" @submit.prevent="step === 'email' ? requestCode() : confirm()">
-      <label class="sub-field">
-        <span class="sub-field__label">邮箱地址</span>
-        <input
-          v-model.trim="email"
-          class="sub-input"
-          type="email"
-          placeholder="your@email.com"
-          :disabled="loading || step === 'code'"
-          required
-        />
-      </label>
+    <form v-else class="form" @submit.prevent="step === 'email' ? requestCode() : confirm()">
+      <div class="field">
+        <label class="field__label" for="sub-email">邮箱地址</label>
+        <div class="field__row">
+          <input
+            id="sub-email"
+            v-model.trim="email"
+            class="input"
+            type="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            :disabled="loading || step === 'code'"
+          />
+          <button v-if="step === 'email'" class="btn" type="submit" :disabled="!canSubmitEmail">
+            {{ loading ? "发送中" : cooldown > 0 ? `${cooldown}s 后可重试` : "发送验证码" }}
+          </button>
+        </div>
+      </div>
 
-      <label v-if="step === 'code'" class="sub-field">
-        <span class="sub-field__label">验证码（已发到 {{ email }}）</span>
-        <input
-          v-model.trim="code"
-          class="sub-input sub-input--code"
-          inputmode="numeric"
-          maxlength="6"
-          placeholder="6 位数字"
-          :disabled="loading"
-          autofocus
-        />
-      </label>
+      <div v-if="step === 'code'" class="field">
+        <label class="field__label" for="sub-code">
+          验证码<span class="field__note">已发送至 {{ email }}</span>
+        </label>
+        <div class="otp" :class="{ 'is-disabled': loading }" @click="focusOtp">
+          <input
+            id="sub-code"
+            ref="otpRef"
+            class="otp__input"
+            type="text"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            maxlength="6"
+            :value="code"
+            :disabled="loading"
+            @input="onCodeInput"
+            @focus="otpFocused = true"
+            @blur="otpFocused = false"
+          />
+          <span
+            v-for="i in cells"
+            :key="i"
+            class="otp__cell"
+            :class="{
+              'is-filled': code.length > i,
+              'is-active': otpFocused && code.length === i,
+            }"
+          >
+            {{ code[i] ?? "" }}
+          </span>
+        </div>
+        <button class="btn btn--block" type="submit" :disabled="!canSubmitCode">
+          {{ loading ? "确认中" : mode === "subscribe" ? "确认订阅" : "确认退订" }}
+        </button>
+      </div>
 
-      <button class="sub-btn" type="submit" :disabled="loading || (step === 'email' && cooldown > 0)">
-        {{
-          loading
-            ? "处理中…"
-            : step === "email"
-              ? cooldown > 0
-                ? `${cooldown}s 后可重试`
-                : mode === "subscribe"
-                  ? "发送验证码"
-                  : "发送退订验证码"
-              : mode === "subscribe"
-                ? "确认订阅"
-                : "确认退订"
-        }}
-      </button>
-
-      <p v-if="error" class="sub-msg sub-msg--error">{{ error }}</p>
-      <p v-else-if="step === 'code'" class="sub-msg">验证码 5 分钟内有效，收不到就翻翻垃圾箱。</p>
+      <p v-if="error" class="msg msg--error">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 8v4.5M12 16h.01" />
+        </svg>
+        {{ error }}
+      </p>
+      <p v-else-if="step === 'code'" class="msg">
+        验证码 5 分钟内有效；没收到就翻一下垃圾邮件。
+      </p>
     </form>
 
-    <div class="sub-foot">
-      <span v-if="count !== null" class="sub-count">已有 {{ count }} 位读者订阅</span>
-      <span v-else />
-      <a class="sub-link" href="#" @click.prevent="switchMode">
+    <footer class="panel__foot">
+      <span>{{ mode === "subscribe" ? "不会用于任何其他用途" : "退订后名单立即移除" }}</span>
+      <button class="link" type="button" @click="switchMode">
         {{ mode === "subscribe" ? "我想退订" : "回到订阅" }}
-      </a>
-    </div>
-  </div>
+      </button>
+    </footer>
+  </section>
 </template>
 
 <style scoped>
-.sub-card {
-  padding: 28px 30px 22px;
-  border: 1px solid var(--vp-c-divider, #e2e8f0);
-  border-radius: 16px;
-  background: var(--vp-c-bg, #fff);
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
+/* 中性色令牌：亮色 / 暗色各一套，其余样式只引用变量 */
+.panel {
+  --ui-bg: #ffffff;
+  --ui-fg: #0a0a0a;
+  --ui-muted: #737373;
+  --ui-subtle: #fafafa;
+  --ui-border: #e5e5e5;
+  --ui-input: #e0e0e0;
+  --ui-accent: #096dd9;
+  --ui-accent-dark: #0757ac;
+  --ui-ring: rgba(9, 109, 217, 0.18);
+  --ui-danger: #dc2626;
+
+  padding: 24px;
+  border: 1px solid var(--ui-border);
+  border-radius: 12px;
+  background: var(--ui-bg);
+  color: var(--ui-fg);
 }
 
-/* 步骤条 */
-.sub-steps {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 24px;
+:global([data-theme="dark"]) .panel {
+  --ui-bg: #141414;
+  --ui-fg: #fafafa;
+  --ui-muted: #a3a3a3;
+  --ui-subtle: #1c1c1c;
+  --ui-border: rgba(255, 255, 255, 0.12);
+  --ui-input: rgba(255, 255, 255, 0.16);
+  --ui-accent: #3b82f6;
+  --ui-accent-dark: #2563eb;
+  --ui-ring: rgba(59, 130, 246, 0.25);
+  --ui-danger: #f87171;
 }
 
-.sub-step {
+/* 卡片头 */
+.panel__head {
   display: flex;
-  align-items: center;
-  gap: 7px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.panel__title {
+  margin: 0 0 6px;
+  padding: 0;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.panel__sub {
+  margin: 0;
   font-size: 13px;
-  color: var(--vp-c-text-3, #9ca3af);
+  line-height: 1.6;
+  color: var(--ui-muted);
+}
+
+.panel__stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--ui-muted);
+  border: 1px solid var(--ui-border);
+  border-radius: 999px;
   white-space: nowrap;
 }
 
-.sub-step.active {
-  color: #096dd9;
-}
-
-.sub-step__dot {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
+.panel__stat-dot {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-  background: #cbd5e1;
-  transition: background 0.2s;
-}
-
-.sub-step.active .sub-step__dot {
-  background: #096dd9;
-}
-
-.sub-step.current .sub-step__dot {
-  box-shadow: 0 0 0 4px rgba(9, 109, 217, 0.15);
-}
-
-.sub-step__line {
-  flex: 1 1 auto;
-  height: 2px;
-  border-radius: 2px;
-  background: #e5e7eb;
-}
-
-.sub-step__line.active {
-  background: #096dd9;
+  background: #22c55e;
 }
 
 /* 表单 */
-.sub-form {
+.form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px;
 }
 
-.sub-field {
+.field {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.field__label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.field__note {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ui-muted);
+}
+
+.field__row {
+  display: flex;
+  gap: 8px;
+}
+
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--ui-fg);
+  background: transparent;
+  border: 1px solid var(--ui-input);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.input::placeholder {
+  color: var(--ui-muted);
+}
+
+.input:focus {
+  border-color: var(--ui-accent);
+  box-shadow: 0 0 0 3px var(--ui-ring);
+}
+
+.input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* 验证码 6 格 */
+.otp {
+  position: relative;
+  display: flex;
   gap: 6px;
 }
 
-.sub-field__label {
-  font-size: 13px;
-  color: var(--vp-c-text-2, #6b7280);
-}
-
-.sub-input {
-  width: 100%;
-  padding: 13px 15px;
-  font-size: 15px;
-  border: 1px solid var(--vp-c-divider, #d1d5db);
-  border-radius: 10px;
-  background: var(--vp-c-bg-soft, #f8fafc);
-  color: var(--vp-c-text-1, #111827);
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.sub-input:focus {
-  border-color: #096dd9;
-  box-shadow: 0 0 0 3px rgba(9, 109, 217, 0.12);
-}
-
-.sub-input--code {
-  letter-spacing: 6px;
-  font-weight: 700;
-  font-size: 18px;
-}
-
-.sub-btn {
-  padding: 13px 22px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #fff;
-  background: linear-gradient(135deg, #1677ff, #096dd9);
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
-  box-shadow: 0 6px 16px rgba(9, 109, 217, 0.25);
-}
-
-.sub-btn:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(9, 109, 217, 0.32);
-}
-
-.sub-btn:disabled {
+.otp.is-disabled {
   opacity: 0.55;
-  cursor: not-allowed;
-  box-shadow: none;
 }
 
-.sub-btn--ghost {
-  color: var(--vp-c-text-1, #1f2937);
-  background: transparent;
-  border: 1px solid var(--vp-c-divider, #d1d5db);
-  box-shadow: none;
-}
-
-.sub-msg {
+.otp__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   margin: 0;
-  font-size: 13px;
-  color: var(--vp-c-text-2, #6b7280);
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  cursor: text;
 }
 
-.sub-msg--error {
-  color: #dc2626;
-}
-
-/* 完成态 */
-.sub-done {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 0 14px;
-  text-align: center;
-}
-
-.sub-done__icon {
+.otp__cell {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  font-size: 26px;
-  color: #059669;
-  background: #d1fae5;
+  width: 38px;
+  height: 46px;
+  font-size: 18px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid var(--ui-input);
+  border-radius: 6px;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.sub-done__text {
-  margin: 4px 0 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--vp-c-text-1, #111827);
+.otp__cell.is-active {
+  border-color: var(--ui-accent);
+  box-shadow: 0 0 0 3px var(--ui-ring);
 }
 
-.sub-done__hint {
-  margin: 0 0 6px;
+.otp__cell.is-filled {
+  border-color: var(--ui-fg);
+}
+
+/* 按钮 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #fff;
+  background: var(--ui-accent);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, opacity 0.15s, border-color 0.15s;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--ui-accent-dark);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn--outline {
+  color: var(--ui-fg);
+  background: transparent;
+  border-color: var(--ui-border);
+}
+
+.btn--outline:hover:not(:disabled) {
+  background: var(--ui-subtle);
+}
+
+.link {
+  padding: 0;
   font-size: 13px;
-  color: var(--vp-c-text-2, #6b7280);
+  font-family: inherit;
+  color: var(--ui-muted);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
 }
 
-/* 底部 */
-.sub-foot {
+.link:hover {
+  color: var(--ui-fg);
+}
+
+/* 提示 */
+.msg {
   display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  color: var(--ui-muted);
+}
+
+.msg--error {
+  color: var(--ui-danger);
+}
+
+.msg svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+/* 完成态 */
+.done {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 0 2px;
+}
+
+.done__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  color: #16a34a;
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.done__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.done__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.done__hint {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ui-muted);
+}
+
+/* 卡片脚 */
+.panel__foot {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid var(--vp-c-divider, #eef2f7);
+  margin-top: 20px;
+  padding-top: 16px;
   font-size: 12px;
-  color: var(--vp-c-text-3, #9ca3af);
+  color: var(--ui-muted);
+  border-top: 1px solid var(--ui-border);
 }
 
-.sub-link {
-  color: var(--vp-c-text-2, #6b7280);
-  text-decoration: underline;
-}
-
-:global([data-theme="dark"]) .sub-card {
-  background: var(--vp-c-bg-soft, #1b1b1f);
-  box-shadow: none;
-}
-
-@media (max-width: 520px) {
-  .sub-card {
-    padding: 20px 18px 16px;
+@media (max-width: 560px) {
+  .panel {
+    padding: 18px;
   }
 
-  .sub-step__label {
-    display: none;
+  .field__row {
+    flex-direction: column;
+  }
+
+  .otp__cell {
+    width: 100%;
+    height: 44px;
   }
 }
 </style>
