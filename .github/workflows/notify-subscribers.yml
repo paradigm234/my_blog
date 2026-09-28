@@ -1,0 +1,56 @@
+name: 通知订阅者
+
+# 文章更新后：
+#   1. 等 Cloudflare Pages 把新版本真正上线（靠页面里的 build-sha 标记判断，避免邮件比站点先到）
+#   2. 调用后端 /api/notify/publish，后端自己去 GitHub 比对这次改了哪些文章，再给订阅者发邮件
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**/*.md"
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    env:
+      # 后端地址；想换成别的域名就加一个 BACKEND_URL secret
+      BACKEND_URL: ${{ secrets.BACKEND_URL || 'https://api.junhaowang.cn' }}
+      # 必填：和 Vercel 里的 NOTIFY_TOKEN 保持一致
+      NOTIFY_TOKEN: ${{ secrets.NOTIFY_TOKEN }}
+
+    steps:
+      - name: 等待新版本上线
+        run: |
+          for i in $(seq 1 40); do
+            if curl -sf "https://junhaowang.cn/?v=${{ github.sha }}&_=$RANDOM" | grep -q "${{ github.sha }}"; then
+              echo "✅ 新版本已上线（第 ${i} 次探测）"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "⚠️ 等待 10 分钟仍未探测到新版本，继续发送通知（页面可能只是 CDN 缓存未刷新）"
+
+      - name: 没配 NOTIFY_TOKEN 时给出提示
+        if: env.NOTIFY_TOKEN == ''
+        run: |
+          echo "::warning::没有配置 NOTIFY_TOKEN，已跳过通知。请在仓库 Settings → Secrets and variables → Actions 里添加 NOTIFY_TOKEN。"
+
+      - name: 通知订阅者
+        if: env.NOTIFY_TOKEN != ''
+        run: |
+          curl -sS -f --retry 3 --retry-delay 5 \
+            -X POST "$BACKEND_URL/api/notify/publish" \
+            -H "Authorization: Bearer $NOTIFY_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n \
+                  --arg repo '${{ github.repository }}' \
+                  --arg before '${{ github.event.before }}' \
+                  --arg after '${{ github.sha }}' \
+                  --arg author '${{ github.actor }}' \
+                  '{repo:$repo, before:$before, after:$after, author:$author}')" \
+            -w "\nHTTP %{http_code}\n"
