@@ -81,9 +81,7 @@ export default navbar([
           { text: "2025-11-09", icon: "fa6-solid:blog", link: "2025-11-09" },
           { text: "2025-11-17", icon: "fa6-solid:blog", link: "2025-11-17" },
           { text: "2025-12-16", icon: "fa6-solid:blog", link: "2025-12-16" },
-          { text: "2026-1-14", icon: "fa6-solid:blog", link: "2026-1-14" },
-          { text: "2026-2-8", icon: "fa6-solid:blog", link: "2026-2-8" },
-          { text: "2026-03", icon: "fa6-solid:blog", link: "2026-03-03" },
+          { text: "2026", icon: "fa6-solid:blog", link: "2026" },
         ],
       },
     ],
@@ -121,6 +119,20 @@ export default navbar([
           { text: "围棋", icon: "pixelarticons:chess", link: "go" },
           { text: "音乐", icon: "iconoir:music-double-note-plus", link: "music" },
           { text: "电影", icon: "icon-park-solid:movie", link: "movie" },
+        ],
+      }
+    ]
+  },
+  // agent开发
+  {
+    text: "Agent开发",
+    icon: "gravity-ui:face-fun",
+    prefix: "/AI_develop/",
+    children: [
+      {
+        text: "Agent开发",
+        children: [
+          { text: "LangChain", icon: "logos:langchain", link: "Langchain" },
         ],
       }
     ]

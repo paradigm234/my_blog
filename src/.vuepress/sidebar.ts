@@ -164,21 +164,9 @@ export default sidebar({
 
         },
         {
-          text: "2026-1-14",
+          text: "2026",
           icon: "mdi:timeline-clock",
-          link: "2026-1-14"  // 对应 /about_blog/2026-1-14.md
-
-        },
-        {
-          text: "2026-2-8",
-          icon: "mdi:timeline-clock",
-          link: "2026-2-8"  // 对应 /about_blog/2026-2-8.md
-
-        },
-        {
-          text: "2026-03",
-          icon: "mdi:timeline-clock",
-          link: "2026-03-03"  // 对应 /about_blog/2026-03-03.md
+          link: "2026"  // 对应 /about_blog/2026-03-03.md
 
         },
       ]
@@ -276,5 +264,20 @@ export default sidebar({
         },
       ]
     }
+  ],
+  "/AI_develop/": [
+    {
+      text: "Agent开发",
+      icon: "logos:langchain",
+      expanded: true,
+      children: [
+        {
+          text: "Langchain",
+          icon: "logos:langchain",
+          link: "Langchain.md"  // 对应 /AI_develop/Langchain.md
+        },
+      ]
+    }
   ]
+
 });
