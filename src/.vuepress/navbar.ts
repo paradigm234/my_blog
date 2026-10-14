@@ -126,13 +126,19 @@ export default navbar([
   // agent开发
   {
     text: "Agent开发",
-    icon: "gravity-ui:face-fun",
+    icon: "mingcute:vibe-coding-fill",
     prefix: "/AI_develop/",
     children: [
       {
         text: "Agent开发",
         children: [
           { text: "LangChain", icon: "logos:langchain", link: "Langchain" },
+        ],
+      },
+      {
+        text: "PythonWeb",
+        children: [
+          { text: "PythonWeb", icon: "cib:python", link: "PythonWeb" },
         ],
       }
     ]

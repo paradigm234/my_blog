@@ -276,6 +276,11 @@ export default sidebar({
           icon: "logos:langchain",
           link: "Langchain.md"  // 对应 /AI_develop/Langchain.md
         },
+        {
+          text: "PythonWeb",
+          icon: "cib:python",
+          link: "PythonWeb.md"  // 对应 /AI_develop/PythonWeb.md
+        },
       ]
     }
   ]
