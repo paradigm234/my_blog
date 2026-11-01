@@ -1,8 +1,6 @@
 ---
 icon: streamline-plump:wave-signal-square-solid
 date: 2025-12-16
-category:
-  -计算机基础408
 ---
 # Digital Signal Processing
 

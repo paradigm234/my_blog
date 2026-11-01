@@ -267,7 +267,7 @@ export default sidebar({
   ],
   "/AI_develop/": [
     {
-      text: "Agent开发",
+      text: "开发",
       icon: "logos:langchain",
       expanded: true,
       children: [
@@ -281,6 +281,11 @@ export default sidebar({
           icon: "cib:python",
           link: "PythonWeb.md"  // 对应 /AI_develop/PythonWeb.md
         },
+        {
+          text: "Go",
+          icon: "devicon:go",
+          link: "GO.md"  // 对应 /AI_develop/Go.md
+        }
       ]
     }
   ]

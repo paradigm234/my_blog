@@ -125,7 +125,7 @@ export default navbar([
   },
   // agent开发
   {
-    text: "Agent开发",
+    text: "开发",
     icon: "mingcute:vibe-coding-fill",
     prefix: "/AI_develop/",
     children: [
@@ -139,6 +139,12 @@ export default navbar([
         text: "PythonWeb",
         children: [
           { text: "PythonWeb", icon: "cib:python", link: "PythonWeb" },
+        ],
+      },
+      {
+        text: "Go",
+        children: [
+          { text: "Go", icon: "cib:go", link: "GO" },
         ],
       }
     ]
