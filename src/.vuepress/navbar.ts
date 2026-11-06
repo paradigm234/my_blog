@@ -43,6 +43,59 @@ export default navbar([
     ],
   },
 
+
+
+  // 学习分类
+  {
+    text: "学习",
+    icon: "copy",
+    prefix: "/study/",
+    children: [
+      {
+        text: "本科学习资料",
+        icon: "emojione-v1:document",
+        children: [
+          { text: "人工智能基础", icon: "hugeicons:ai-book", link: "人工智能基础" },
+          { text: "数字信号处理", icon: "streamline-plump:wave-signal-square-solid", link: "dsp_review" },
+          { text: "高频电子线路", icon: "maki:communications-tower", link: "High-Frequency Electronic Circuits" },
+        ],
+      },
+    ],
+  },
+
+
+  // agent开发
+  {
+    text: "开发",
+    icon: "mingcute:vibe-coding-fill",
+    prefix: "/AI_develop/",
+    children: [
+      {
+        text: "Agent开发",
+        children: [
+          { text: "LangChain", icon: "logos:langchain", link: "Langchain" },
+        ],
+      },
+      {
+        text: "PythonWeb",
+        children: [
+          { text: "PythonWeb", icon: "cib:python", link: "PythonWeb" },
+        ],
+      },
+      {
+        text: "Go",
+        children: [
+          { text: "Go", icon: "cib:go", link: "GO" },
+        ],
+      },
+      {
+        text: "GIN",
+        children: [
+          { text: "GIN", icon: "logos:gin", link: "GIN" },
+        ],
+      }
+    ]
+  },
   // 随笔分类
   {
     text: "随笔",
@@ -61,6 +114,23 @@ export default navbar([
         ],
       },
     ],
+  },
+  {
+    text: "个人爱好",
+    icon: "gravity-ui:face-fun",
+    prefix: "/hobby/",
+    children: [
+      {
+        text: "兴趣爱好",
+        children: [
+          { text: "游戏", icon: "streamline-plump:controller-1-remix", link: "game" },
+          { text: "动漫", icon: "streamline-ultimate:video-call", link: "anime" },
+          { text: "围棋", icon: "pixelarticons:chess", link: "go" },
+          { text: "音乐", icon: "iconoir:music-double-note-plus", link: "music" },
+          { text: "电影", icon: "icon-park-solid:movie", link: "movie" },
+        ],
+      }
+    ]
   },
 
   // 关于博客分类
@@ -85,69 +155,6 @@ export default navbar([
         ],
       },
     ],
-  },
-
-  // 学习分类
-  {
-    text: "学习",
-    icon: "copy",
-    prefix: "/study/",
-    children: [
-      {
-        text: "本科学习资料",
-        icon: "emojione-v1:document",
-        children: [
-          { text: "人工智能基础", icon: "hugeicons:ai-book", link: "人工智能基础" },
-          { text: "数字信号处理", icon: "streamline-plump:wave-signal-square-solid", link: "dsp_review" },
-          { text: "高频电子线路", icon: "maki:communications-tower", link: "High-Frequency Electronic Circuits" },
-        ],
-      },
-    ],
-  },
-
-  // 个人爱好分类
-  {
-    text: "个人爱好",
-    icon: "gravity-ui:face-fun",
-    prefix: "/hobby/",
-    children: [
-      {
-        text: "兴趣爱好",
-        children: [
-          { text: "游戏", icon: "streamline-plump:controller-1-remix", link: "game" },
-          { text: "动漫", icon: "streamline-ultimate:video-call", link: "anime" },
-          { text: "围棋", icon: "pixelarticons:chess", link: "go" },
-          { text: "音乐", icon: "iconoir:music-double-note-plus", link: "music" },
-          { text: "电影", icon: "icon-park-solid:movie", link: "movie" },
-        ],
-      }
-    ]
-  },
-  // agent开发
-  {
-    text: "开发",
-    icon: "mingcute:vibe-coding-fill",
-    prefix: "/AI_develop/",
-    children: [
-      {
-        text: "Agent开发",
-        children: [
-          { text: "LangChain", icon: "logos:langchain", link: "Langchain" },
-        ],
-      },
-      {
-        text: "PythonWeb",
-        children: [
-          { text: "PythonWeb", icon: "cib:python", link: "PythonWeb" },
-        ],
-      },
-      {
-        text: "Go",
-        children: [
-          { text: "Go", icon: "cib:go", link: "GO" },
-        ],
-      }
-    ]
   },
 
   // // 主题文档链接（可选）

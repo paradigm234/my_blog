@@ -285,7 +285,13 @@ export default sidebar({
           text: "Go",
           icon: "devicon:go",
           link: "GO.md"  // 对应 /AI_develop/Go.md
+        },
+        {
+          text: "GIN",
+          icon: "logos:gin",
+          link: "GIN.md"  // 对应 /AI_develop/GIN.md
         }
+
       ]
     }
   ]

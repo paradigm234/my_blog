@@ -91,7 +91,7 @@ for token, metadata in agent.stream(
 
 所谓**提示词工程（Prompt Engineering）**，就是通过优化提示词使模型输出的结果更符合业务需要的过程。
 
-一般来说，系统提示词（System Prompt)会包含以下几个部分，通常按此顺序排列：
+一般来说，系统提示词（System Prompt）会包含以下几个部分，通常按此顺序排列：
 
 - **身份角色（Identity）**：描述AI的职责、沟通风格和总体目标。
 - **指令说明（Instructions）**：请指导模型如何生成所需的响应。它应该遵循哪些规则？模型应该做什么，以及模型绝对不能做什么？
